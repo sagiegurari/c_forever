@@ -34,7 +34,8 @@ void my_program()
 
 int callback(const unsigned char started, int stat_loc)
 {
-  if (stat_loc == 0) {
+  if (stat_loc == 0)
+  {
     return(-1); // no more retries
   }
 
