@@ -54,6 +54,9 @@ int main()
 
   // call 'my_program' and when it ends/crashes call the provided callback
   count = forever_with_callback(my_program, callback);
+
+  // run with unlimited retries and no delay between invocations
+  forever(my_program);
 }
 ```
 
