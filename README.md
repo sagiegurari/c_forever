@@ -1,6 +1,6 @@
 # forever
 
-[![Continuous Integration](https://github.com/sagiegurari/c_forever/workflows/Continuous%20Integration/badge.svg?branch=master)](https://github.com/sagiegurari/c_forever/actions)
+[![CI](https://github.com/sagiegurari/c_forever/workflows/CI/badge.svg?branch=master)](https://github.com/sagiegurari/c_forever/actions)
 [![Release](https://img.shields.io/github/v/release/sagiegurari/c_forever)](https://github.com/sagiegurari/c_forever/releases)
 [![license](https://img.shields.io/github/license/sagiegurari/c_forever)](https://github.com/sagiegurari/c_forever/blob/master/LICENSE)
 
