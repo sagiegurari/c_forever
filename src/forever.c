@@ -1,6 +1,8 @@
 #include "forever.h"
+#include <errno.h>
 #include <stdbool.h>
 #include <sys/wait.h>
+#include <time.h>
 #include <unistd.h>
 
 struct ForeverState
@@ -16,9 +18,10 @@ struct ForeverState
 // private functions
 unsigned int _forever(void (*fn)(), struct ForeverState);
 void _on_exit(struct ForeverState *, const bool, int);
+void _msleep(unsigned int);
 
 
-unsigned intvforever(void (*fn)())
+unsigned int forever(void (*fn)())
 {
   return(forever_with_options(fn, 0, 0));
 }
@@ -107,14 +110,27 @@ void _on_exit(struct ForeverState *state, const bool started, int stat_loc)
       state->interval_in_millies = (unsigned int)interval_in_millies;
     }
   }
-  else if (state->invocation_counter >= state->max_retries)
+  else if (state->max_retries > 0 && state->invocation_counter >= state->max_retries)
   {
     state->stop = true;
   }
 
   if (!state->stop && state->interval_in_millies > 0)
   {
-    usleep(state->interval_in_millies);
+    _msleep(state->interval_in_millies);
   }
+}
+
+
+void _msleep(unsigned int millies)
+{
+  long            millies_long = (long)millies;
+
+  struct timespec ts;
+
+  ts.tv_sec  = millies_long / 1000;
+  ts.tv_nsec = (millies_long % 1000) * 1000000;
+
+  nanosleep(&ts, &ts);
 }
 
