@@ -85,6 +85,7 @@ unsigned int _forever(void (*fn)(), struct ForeverState state)
       else
       {
         (*fn)();
+        return(0);
       }
     }
   }
