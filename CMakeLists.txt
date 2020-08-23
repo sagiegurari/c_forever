@@ -45,16 +45,14 @@ endif()
 # tests
 enable_testing()
 
-macro(setup_test)
-  utils_setup_c_test(
-    NAME ${ARGV0}
-    ADDITIONAL_SOURCES "${COMMON_TEST_SOURCES}"
-    COMPILATION_FLAGS "${X_CMAKE_C_FLAGS}"
-    BINARY_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-  )
-endmacro(setup_test)
+utils_setup_c_test(
+  NAME
+    options_single_retry
+    options_multiple_retries
+    options_with_delay
+    callback_multiple_retries
+  ADDITIONAL_SOURCES "${COMMON_TEST_SOURCES}"
+  COMPILATION_FLAGS "${X_CMAKE_C_FLAGS}"
+  BINARY_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
 
-setup_test("options_single_retry")
-setup_test("options_multiple_retries")
-setup_test("options_with_delay")
-setup_test("callback_multiple_retries")
