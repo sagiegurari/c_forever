@@ -45,12 +45,7 @@ endif()
 # tests
 enable_testing()
 
-utils_setup_c_test(
-  NAME
-    options_single_retry
-    options_multiple_retries
-    options_with_delay
-    callback_multiple_retries
+utils_setup_c_all_tests(
   ADDITIONAL_SOURCES "${COMMON_TEST_SOURCES}"
   COMPILATION_FLAGS "${X_CMAKE_C_FLAGS}"
   BINARY_DIRECTORY "${CMAKE_BINARY_DIR}/bin"

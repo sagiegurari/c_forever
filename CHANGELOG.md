@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Improved build setup (no need to list test names).
 * Update cmake build to use shared cmake utilities.
 
 ### v0.1.2 (2020-06-14)
