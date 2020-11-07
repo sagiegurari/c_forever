@@ -17,8 +17,8 @@ struct ForeverState
 
 // private functions
 unsigned int _forever(void (*fn)(), struct ForeverState);
-void _on_exit(struct ForeverState *, const bool, int);
-void _msleep(unsigned int);
+void _forever_on_exit(struct ForeverState *, const bool, int);
+void _forever_msleep(unsigned int);
 
 
 unsigned int forever(void (*fn)())
@@ -70,7 +70,7 @@ unsigned int _forever(void (*fn)(), struct ForeverState state)
     if (pid < 0)
     {
       // wait and try again later
-      _on_exit(&state, false, 0);
+      _forever_on_exit(&state, false, 0);
     }
     else
     {
@@ -80,7 +80,7 @@ unsigned int _forever(void (*fn)(), struct ForeverState state)
       {
         int stat_loc = 0;
         waitpid(pid, &stat_loc, 0);
-        _on_exit(&state, true, stat_loc);
+        _forever_on_exit(&state, true, stat_loc);
       }
       else
       {
@@ -94,7 +94,7 @@ unsigned int _forever(void (*fn)(), struct ForeverState state)
 }
 
 
-void _on_exit(struct ForeverState *state, const bool started, int stat_loc)
+void _forever_on_exit(struct ForeverState *state, const bool started, int stat_loc)
 {
   state->invocation_counter++;
 
@@ -118,12 +118,12 @@ void _on_exit(struct ForeverState *state, const bool started, int stat_loc)
 
   if (!state->stop && state->interval_in_millies > 0)
   {
-    _msleep(state->interval_in_millies);
+    _forever_msleep(state->interval_in_millies);
   }
 }
 
 
-void _msleep(unsigned int millies)
+void _forever_msleep(unsigned int millies)
 {
   long            millies_long = (long)millies;
 

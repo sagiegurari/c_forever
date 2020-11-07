@@ -1,7 +1,9 @@
 ## CHANGELOG
 
-### Unreleased
+### v0.1.3 (2020-11-07)
 
+* Internal functions are now namespaced with _forever prefix.
+* Added example file
 * Improved build setup (no need to list test names).
 * Update cmake build to use shared cmake utilities.
 

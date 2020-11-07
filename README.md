@@ -25,6 +25,10 @@ The provided function is invoked as a forked process, so any crash is caught and
 
 ```c
 #include "forever.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 
 void my_program()
 {
@@ -32,15 +36,17 @@ void my_program()
   exit(0);
 }
 
+
 int callback(const unsigned char started, int stat_loc)
 {
-  if (stat_loc == 0)
+  if (stat_loc == 0 || !started)
   {
     return(-1); // no more retries
   }
 
   return(500); // wait 500 millies before next invocation, 0 for no wait.
 }
+
 
 int main()
 {
@@ -50,11 +56,14 @@ int main()
   unsigned int counter = forever_with_options(
     my_program, // function to invoke
     10,         // max amount of retries. 0 for unlimited retries.
-    250,        // amount of millies to wait between invocations. 0 for no wait.
-  );
+    250         // amount of millies to wait between invocations. 0 for no wait.
+    );
+
+  printf("Invoked %u time/s.\n", counter);
 
   // call 'my_program' and when it ends/crashes call the provided callback
-  count = forever_with_callback(my_program, callback);
+  counter = forever_with_callback(my_program, callback);
+  printf("Invoked %u time/s.\n", counter);
 
   // run with unlimited retries and no delay between invocations
   forever(my_program);
