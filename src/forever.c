@@ -7,30 +7,32 @@
 
 struct ForeverState
 {
+  void         *context;
   unsigned int max_retries;
   unsigned int interval_in_millies;
-  int          (*callback)(const unsigned char, int);
+  int          (*callback)(void *, const unsigned char, int);
   bool         use_callback;
   unsigned int invocation_counter;
   bool         stop;
 };
 
 // private functions
-unsigned int _forever(void (*fn)(), struct ForeverState);
+unsigned int _forever(void (*fn)(void *), struct ForeverState);
 void _forever_on_exit(struct ForeverState *, const bool, int);
 void _forever_msleep(unsigned int);
 
 
-unsigned int forever(void (*fn)())
+unsigned int forever(void (*fn)(void *), void *context)
 {
-  return(forever_with_options(fn, 0, 0));
+  return(forever_with_options(fn, context, 0, 0));
 }
 
 
-unsigned int forever_with_options(void (*fn)(), const unsigned int max_retries, const unsigned int interval_in_millies)
+unsigned int forever_with_options(void (*fn)(void *), void *context, const unsigned int max_retries, const unsigned int interval_in_millies)
 {
   struct ForeverState state =
   {
+    context,
     max_retries,
     interval_in_millies,
     NULL,
@@ -43,10 +45,11 @@ unsigned int forever_with_options(void (*fn)(), const unsigned int max_retries, 
 }
 
 
-unsigned int forever_with_callback(void (*fn)(), int (*callback)(const unsigned char, int))
+unsigned int forever_with_callback(void (*fn)(void *), void *context, int (*callback)(void *, const unsigned char, int))
 {
   struct ForeverState state =
   {
+    context,
     0,
     0,
     callback,
@@ -59,7 +62,7 @@ unsigned int forever_with_callback(void (*fn)(), int (*callback)(const unsigned 
 }
 
 
-unsigned int _forever(void (*fn)(), struct ForeverState state)
+unsigned int _forever(void (*fn)(void *), struct ForeverState state)
 {
   state.invocation_counter = 0;
   state.stop               = 0;
@@ -84,7 +87,7 @@ unsigned int _forever(void (*fn)(), struct ForeverState state)
       }
       else
       {
-        (*fn)();
+        (*fn)(state.context);
         return(0);
       }
     }
@@ -101,7 +104,7 @@ void _forever_on_exit(struct ForeverState *state, const bool started, int stat_l
   if (state->use_callback)
   {
     const unsigned char started_flag        = started ? 1 : 0;
-    const int           interval_in_millies = state->callback(started_flag, stat_loc);
+    const int           interval_in_millies = state->callback(state->context, started_flag, stat_loc);
     if (interval_in_millies < 0)
     {
       state->stop = true;

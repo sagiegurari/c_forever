@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v0.2.0 (2020-11-20)
+
+* Invoked function and callback function can now accept a context pointer (breaking change).
+
 ### v0.1.3 (2020-11-07)
 
 * Internal functions are now namespaced with _forever prefix.

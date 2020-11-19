@@ -5,8 +5,9 @@
 #include <unistd.h>
 
 
-void fn()
+void fn(void *context)
 {
+  assert_true(context == NULL);
   sleep(1);
   exit(0);
 }
@@ -15,7 +16,7 @@ void fn()
 void test_impl()
 {
   clock_t      time    = clock();
-  unsigned int counter = forever_with_options(fn, 2, 1000);
+  unsigned int counter = forever_with_options(fn, NULL, 2, 1000);
 
   assert_num_equal(counter, 2);
   assert_true(clock() - time >= 4);

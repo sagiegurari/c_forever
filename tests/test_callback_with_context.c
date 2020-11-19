@@ -3,18 +3,19 @@
 #include <stdlib.h>
 #include <time.h>
 
-unsigned short global_counter = 0;
+struct Context
+{
+  int counter;
+};
 
 
 int callback(void *context, const unsigned char started, int stat_loc)
 {
-  assert_true(context == NULL);
+  ((struct Context *)context)->counter++;
   assert_true(started);
   assert_num_equal(stat_loc, 0);
 
-  global_counter++;
-
-  if (global_counter < 4)
+  if (((struct Context *)context)->counter < 4)
   {
     return(500);
   }
@@ -23,16 +24,22 @@ int callback(void *context, const unsigned char started, int stat_loc)
 }
 
 
-void fn()
+void fn(void *context)
 {
+  assert_true(context != NULL);
   exit(0);
 }
 
 
 void test_impl()
 {
+  struct Context *context = malloc(sizeof(struct Context));
+
+  context->counter = 0;
+
   clock_t      time    = clock();
-  unsigned int counter = forever_with_callback(fn, NULL, callback);
+  unsigned int counter = forever_with_callback(fn, context, callback);
+  free(context);
 
   assert_num_equal(counter, 4);
   assert_true(clock() - time >= 2);
