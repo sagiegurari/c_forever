@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v0.2.1
+
+* Test memory leaks in CI
+
 ### v0.2.0 (2020-11-20)
 
 * Invoked function and callback function can now accept a context pointer (breaking change).
