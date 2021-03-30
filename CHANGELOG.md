@@ -3,6 +3,7 @@
 ### v0.2.1
 
 * Test memory leaks in CI
+* Added cargo-make makefile for simpler sharing of optional development build instructions.
 
 ### v0.2.0 (2020-11-20)
 
