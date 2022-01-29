@@ -17,9 +17,9 @@ struct ForeverState
 };
 
 // private functions
-unsigned int _forever(void (*fn)(void *), struct ForeverState);
-void _forever_on_exit(struct ForeverState *, const bool, int);
-void _forever_msleep(unsigned int);
+static unsigned int _forever(void (*fn)(void *), struct ForeverState);
+static void _forever_on_exit(struct ForeverState *, const bool, int);
+static void _forever_msleep(unsigned int);
 
 
 unsigned int forever(void (*fn)(void *), void *context)
@@ -62,7 +62,7 @@ unsigned int forever_with_callback(void (*fn)(void *), void *context, int (*call
 }
 
 
-unsigned int _forever(void (*fn)(void *), struct ForeverState state)
+static unsigned int _forever(void (*fn)(void *), struct ForeverState state)
 {
   state.invocation_counter = 0;
   state.stop               = 0;
@@ -97,7 +97,7 @@ unsigned int _forever(void (*fn)(void *), struct ForeverState state)
 }
 
 
-void _forever_on_exit(struct ForeverState *state, const bool started, int stat_loc)
+static void _forever_on_exit(struct ForeverState *state, const bool started, int stat_loc)
 {
   state->invocation_counter++;
 
@@ -126,7 +126,7 @@ void _forever_on_exit(struct ForeverState *state, const bool started, int stat_l
 }
 
 
-void _forever_msleep(unsigned int millies)
+static void _forever_msleep(unsigned int millies)
 {
   long            millies_long = (long)millies;
 
