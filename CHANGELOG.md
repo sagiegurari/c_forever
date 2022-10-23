@@ -6,6 +6,7 @@
 * Added static to internal functions
 * Adding lint checks as part of build
 * Added cargo-make makefile for simpler sharing of optional development build instructions.
+* Updated header include guard macro name
 
 ### v0.2.0 (2020-11-20)
 

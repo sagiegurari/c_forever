@@ -1,5 +1,5 @@
-#ifndef __FOREVER_H__
-#define __FOREVER_H__
+#ifndef FOREVER_H
+#define FOREVER_H
 
 unsigned int forever(void (*fn)(void *), void *);
 unsigned int forever_with_options(void (*fn)(void *), void *, const unsigned int /* max retries */, const unsigned int /* interval between invocations in milliseconds */);
