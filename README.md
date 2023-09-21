@@ -23,6 +23,7 @@ The provided function is invoked as a forked process, so any crash is caught and
 <a name="usage"></a>
 ## Usage
 
+<!-- example source start -->
 ```c
 #include "forever.h"
 #include <stdio.h>
@@ -82,6 +83,7 @@ int main()
   forever(my_program, context);
 }
 ```
+<!-- example source end -->
 
 ## Contributing
 See [contributing guide](.github/CONTRIBUTING.md)
